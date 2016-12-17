@@ -1,0 +1,20 @@
+{
+  "name": "exrx-scraper",
+  "version": "0.0.1",
+  "description": "Scrapes the Exrx site",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Jelte Wiersma",
+  "dependencies": {
+    "cheerio": "latest",
+    "express": "latest",
+    "q": "^1.4.1",
+    "request": "latest"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "nock": "^9.0.2"
+  }
+}
