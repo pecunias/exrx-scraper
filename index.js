@@ -11,21 +11,23 @@
         request(exerciseUrl, (error, response, html) => {
             if (!error) {
                 let $ = cheerio.load(html);
-                let exerciseData = {
-                    exerciseData: $('table[border="1"] > tr > td > ul > li').map(function(i, elem) {
-                        if(1=== subarea) {
 
-                        }
-
-                        return {
-                            category: $(this).first().text().split('\r\n')[0],
-                            exercises: $(this).find('ul > li').map(function(i, elem) {
-                                    return {name: $(this).text(), url: $(this).attr('href')}
+                $('body').find('h2').each(function(i, elem) {
+                    if($(this).text().indexOf(subarea) > -1) {
+                        let exerciseData = {
+                            exerciseData: $('table[border="1"]').eq(i).find('> tr > td > ul > li').map(function(i, elem) {
+                                return {
+                                    category: $(this).first().text().split('\r\n')[0],
+                                    exercises: $(this).find('ul > li').map(function(i, elem) {
+                                            return {name: $(this).text(), url: $(this).attr('href')}
+                                    }).get()
+                                }
                             }).get()
                         }
-                    }).get()
-                }
-                console.dir(exerciseData.exerciseData);
+                    }
+                })
+
+
             }
             else {
                 console.warn(`Error message in getExerciseData: ${error}`);
