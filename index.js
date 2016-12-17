@@ -16,18 +16,19 @@
                 let muscleData = {
                     muscles: $('table[border="1"] > tr > td:nth-child(1) > ul > li').map(function(i, elem) {
                         return {
-                            area: {name: $(this).find('a').first().text(), url: $(this).find('a').first().attr('href')},
+                            area: {name: $(this).find('a').first().text(), url: $(this).find('a').first().attr('href'),
                             subareas:
                                 $(this).find('a').map(function(i, elem) {
                                     if(i!==0){
-                                        return {name: $(this).text(), url: $(this).attr('href'), 'exercises': exerciseData($(this).attr('href'))};
+                                        return {name: $(this).text(), url: $(this).attr('href'), 'exercises': ''};
                                     }
-                            }).get()
+                            }).get()},
                         }
                     }).get()
                 }
                 let exerciseData = (url) => {
-                    return 'todo';
+                    //TODO
+                    return ''
                 }
                 return callback(muscleData);
             }
