@@ -15,7 +15,7 @@
                 $('body').find('h2').each(function(i, elem) {
                     if($(this).text().indexOf(subarea) > -1) {
                         let exerciseData = {
-                            exerciseData: $('table[border="1"]').eq(i).find('> tr > td > ul > li').map(function(i, elem) {
+                            data: $('table[border="1"]').eq(i).find('tr > td > ul > li').map(function(i, elem) {
                                 return {
                                     category: $(this).first().text().split('\r\n')[0],
                                     exercises: $(this).find('ul > li').map(function(i, elem) {
@@ -24,6 +24,7 @@
                                 }
                             }).get()
                         }
+                        return exerciseData.data;
                     }
                 })
 
@@ -48,7 +49,7 @@
                             subareas:
                                 $(this).find('a').map(function(i, elem) {
                                     if(i!==0){
-                                        return {name: $(this).text(), url: $(this).attr('href'), 'exercises': ''};
+                                        return {name: $(this).text(), url: $(this).attr('href')};
                                     }
                             }).get()},
                         }
@@ -62,14 +63,15 @@
             }
         });
     };
-    let writeToJsonFile = (dataToWrite) => {
-        fs.writeFile('data.json', JSON.stringify(dataToWrite), (err) => {
+    let writeToJsonFile = (name, dataToWrite) => {
+        fs.writeFile(`${name}.json`, JSON.stringify(dataToWrite), (err) => {
             if (err) throw err;
             console.log('Saved.');
         });
     };
     getMuscleData(function(data) {
-        writeToJsonFile(data);
+        writeToJsonFile('muscle-data', data);
     });
+    // getExerciseData('ExList/ShouldWt.html#Anterior', 'Anterior')
     // getExerciseData('ExList/NeckWt.html#Sternocleidomastoid', 'Sternocleidomastoid');
 }()
