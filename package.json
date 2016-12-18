@@ -10,11 +10,9 @@
   "dependencies": {
     "cheerio": "latest",
     "express": "latest",
-    "q": "^1.4.1",
     "request": "latest"
   },
   "license": "ISC",
   "devDependencies": {
-    "nock": "^9.0.2"
   }
 }

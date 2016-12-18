@@ -6,7 +6,7 @@
 
     const scrapeUrl = 'http://www.exrx.net/Lists/Directory.html/';
 
-    let getExerciseData = (url, subarea) => {
+    let getExerciseData = (url, subarea, callback) => {
         const exerciseUrl = `http://www.exrx.net/Lists/${url}`;
         request(exerciseUrl, (error, response, html) => {
             if (!error) {
@@ -19,12 +19,13 @@
                                 return {
                                     category: $(this).first().text().split('\r\n')[0],
                                     exercises: $(this).find('ul > li').map(function(i, elem) {
-                                            return {name: $(this).text(), url: $(this).attr('href')}
+                                            return {name: $(this).text(), url: $(this).find('a').attr('href')}
                                     }).get()
                                 }
                             }).get()
                         }
-                        return exerciseData.data;
+                        // console.log(exerciseData.data);
+                        return callback(exerciseData.data);
                     }
                 })
 
@@ -70,8 +71,25 @@
         });
     };
     getMuscleData(function(data) {
-        writeToJsonFile('muscle-data', data);
+        // areas
+        let done = 0;
+        let shouldBeDone = 0;
+        for(let i = 0; i < data.muscleData.length; i++) {
+            // subareas
+            for(let j = 0; j < data.muscleData[i].area.subareas.length; j++) {
+                getExerciseData(data.muscleData[i].area.subareas[j].url, data.muscleData[i].area.subareas[j].name, function(response) {
+                    // console.log(i);
+                    data.muscleData[i].area.subareas[j].exercises = response;
+                    done++;
+                    // FIXME
+                    if(done === 30) {
+                        writeToJsonFile('muscle-data', data);
+                    }
+                });
+            }
+        }
     });
+    // writeToJsonFile('muscle-data', data);
     // getExerciseData('ExList/ShouldWt.html#Anterior', 'Anterior')
     // getExerciseData('ExList/NeckWt.html#Sternocleidomastoid', 'Sternocleidomastoid');
 }()
