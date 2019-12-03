@@ -1,4 +1,4 @@
-()=> {
+module.exports = ()=> {
     'use strict';
     let fs = require('fs');
     let request = require('request');
@@ -92,4 +92,4 @@
     // writeToJsonFile('muscle-data', data);
     // getExerciseData('ExList/ShouldWt.html#Anterior', 'Anterior')
     // getExerciseData('ExList/NeckWt.html#Sternocleidomastoid', 'Sternocleidomastoid');
-}()
+}
