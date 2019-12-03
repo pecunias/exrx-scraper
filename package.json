@@ -1,18 +1,14 @@
 {
-  "name": "exrx-scraper",
-  "version": "0.0.1",
-  "description": "Scrapes the Exrx site",
+  "name": "puppeteer-exrx",
+  "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jelte Wiersma",
-  "dependencies": {
-    "cheerio": "latest",
-    "express": "latest",
-    "request": "latest"
-  },
   "license": "ISC",
-  "devDependencies": {
+  "dependencies": {
+    "puppeteer": "^2.0.0"
   }
 }
