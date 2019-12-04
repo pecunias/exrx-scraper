@@ -70,7 +70,8 @@ const puppeteer = require('puppeteer');
       // output
       data.push(
         {
-          "name": bodyPartsElements[i].innerText, 
+          "name": bodyPartsElements[i].innerText,
+          "href": bodyPartsElements[i].href,
           "muscles": muscleObjects
         });
     }
@@ -79,6 +80,21 @@ const puppeteer = require('puppeteer');
 
   finalData.bodyparts.push(bodyPartsAndMuscles);
 
-  console.log(JSON.stringify(finalData));
+  const getExercises = async() => {
+    let exercises = [];
+    for(let i = 0; i < finalData.bodyparts; i++) {
+      await page.goto('https://www.google.nl');
+      await page.evaluate(() => {
+        exercises.push({title: document.title});
+      });
+      return exercises;
+    }
+  }
+  
+  
+  
+
+  // console.log(JSON.stringify(finalData));
+  console.log(JSON.stringify(getExercises));
   await browser.close();
 })();
