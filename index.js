@@ -3,10 +3,10 @@ const puppeteer = require('puppeteer');
 (async () => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  await page.goto('https://exrx.net/Lists/Directory');
+  await page.goto('https://exrx.net/Lists/Directory', {waitUntil: 'domcontentloaded'});
 
   const finalData = {
-      bodyparts: []
+      
   }  
 
   const bodyPartsAndMuscles = await page.evaluate(() => {
@@ -78,23 +78,34 @@ const puppeteer = require('puppeteer');
     return data;
   });
 
-  finalData.bodyparts.push(bodyPartsAndMuscles);
+  finalData.bodyparts = bodyPartsAndMuscles;
 
-  const getExercises = async() => {
+  const getExercises = async(bodyparts) => {
     let exercises = [];
-    for(let i = 0; i < finalData.bodyparts; i++) {
-      await page.goto('https://www.google.nl');
-      await page.evaluate(() => {
-        exercises.push({title: document.title});
+    console.log(bodyparts);
+    for (let i = 0; i < bodyparts.length; i++) {
+
+      console.log(bodyparts[i].href);
+      await page.goto(bodyparts[i].href, {waitUntil: 'domcontentloaded'});
+
+      const exercisePage = await page.evaluate(() => {
+        let exercisesContent = document.querySelectorAll('article > .container');
+        for(let i = 0; i < exercisesContent.length; i++) {
+          console.log('title', exercisesContent[i].innerText)
+          console.log('content', exercisesContent[i+1].innerText)
+        }
+        
+        return [{title: document.title}];
       });
-      return exercises;
+      exercises.push(exercisePage);
     }
+    return exercises;
   }
   
   
   
 
   // console.log(JSON.stringify(finalData));
-  console.log(JSON.stringify(getExercises));
+  await getExercises(finalData.bodyparts);
   await browser.close();
 })();
