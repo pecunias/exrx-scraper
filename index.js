@@ -92,7 +92,7 @@ const puppeteer = require('puppeteer');
         let exercisesContent = document.querySelectorAll('article > .container');
         for(let i = 0; i < exercisesContent.length; i++) {
           console.log('title', exercisesContent[i].innerText)
-          console.log('content', exercisesContent[i+1].innerText)
+          // console.log('content', exercisesContent[i+1].innerText)
         }
         
         return [{title: document.title}];
